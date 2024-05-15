@@ -7,11 +7,11 @@ namespace MetaMonkeysStore.ServerApp.Context
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options) { }
 
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<InvoiceItem> InvoiceItems { get; set; }
-        public DbSet<Item> Items { get; set; }
+        public DbSet<Customer> Customers { get; set; } = null!;
+        public DbSet<Employee> Employees { get; set; } = null!;
+        public DbSet<Invoice> Invoices { get; set; } = null!;
+        public DbSet<InvoiceItem> InvoiceItems { get; set; } = null!;
+        public DbSet<Item> Items { get; set; } = null!;
 
     }
 }

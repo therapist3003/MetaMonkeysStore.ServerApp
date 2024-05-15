@@ -25,5 +25,12 @@ namespace MetaMonkeysStore.ServerApp.Data
             await _applicationDbContext.SaveChangesAsync();
             return true;
         }
+
+        //Get Employee Record By username
+        public async Task<Employee> GetEmployeeByUsername(string uname)
+        {
+            Employee employee = await _applicationDbContext.Employees.FirstOrDefaultAsync(x => x.Username == uname);
+            return employee;
+        }
     }
 }

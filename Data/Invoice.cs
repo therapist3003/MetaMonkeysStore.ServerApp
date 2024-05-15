@@ -5,6 +5,7 @@ namespace MetaMonkeysBillingSystem.App.Models
 {
     public class Invoice
     {
+        public static int Count = 0;
         [Key]
         public int InvoiceID { get; set; }
 
