@@ -22,6 +22,16 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
 
+// Adding services for user-defined service classes
+builder.Services.AddSingleton<CustomerService>();
+builder.Services.AddSingleton<EmployeeService>();
+builder.Services.AddSingleton<InvoiceItemService>();
+builder.Services.AddSingleton<InvoiceService>();
+builder.Services.AddSingleton<ItemService>();
+
+// Connection to the database
+builder.Services.AddDbContext<ApplicationDbContext>(item => item.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
