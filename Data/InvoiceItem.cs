@@ -23,6 +23,7 @@ namespace MetaMonkeysBillingSystem.App.Models
         public decimal UnitCost { get; set; }
 
         [Required]
+        [Column(TypeName = "decimal(10,2)")]
         public decimal TotalCost { get; set; }
 
         [ForeignKey("InvoiceID")]

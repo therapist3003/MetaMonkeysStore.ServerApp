@@ -1,11 +1,11 @@
-using MetaMonkeysStore.ServerApp.Areas.Identity;
+//using MetaMonkeysStore.ServerApp.Areas.Identity;
 using MetaMonkeysStore.ServerApp.Context;
 using MetaMonkeysStore.ServerApp.Data;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
+//using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+//using Microsoft.AspNetCore.Identity;
+//using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,19 +15,19 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<WeatherForecastService>();
+//builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+//builder.Services.AddSingleton<WeatherForecastService>();
 
 // Adding services for user-defined service classes
-builder.Services.AddSingleton<CustomerService>();
-builder.Services.AddSingleton<EmployeeService>();
-builder.Services.AddSingleton<InvoiceItemService>();
-builder.Services.AddSingleton<InvoiceService>();
-builder.Services.AddSingleton<ItemService>();
+builder.Services.AddScoped<CustomerService>();
+builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<InvoiceItemService>();
+builder.Services.AddScoped<InvoiceService>();
+builder.Services.AddScoped<ItemService>();
 
 // Connection to the database
 builder.Services.AddDbContext<ApplicationDbContext>(item => item.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
