@@ -1,5 +1,4 @@
-﻿using MetaMonkeysBillingSystem.App.Models;
-using MetaMonkeysStore.ServerApp.Context;
+﻿using MetaMonkeysStore.ServerApp.Context;
 
 namespace MetaMonkeysStore.ServerApp.Data
 {

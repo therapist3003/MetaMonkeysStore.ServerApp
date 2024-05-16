@@ -1,5 +1,4 @@
-﻿using MetaMonkeysBillingSystem.App.Models;
-using MetaMonkeysStore.ServerApp.Context;
+﻿using MetaMonkeysStore.ServerApp.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace MetaMonkeysStore.ServerApp.Data
@@ -12,6 +11,7 @@ namespace MetaMonkeysStore.ServerApp.Data
         {
             _applicationDbContext = applicationDbContext;
         }
+
 
         // Get All Employees
         public async Task<List<Employee>> GetAllEmployes()

@@ -1,7 +1,11 @@
 //using MetaMonkeysStore.ServerApp.Areas.Identity;
 using MetaMonkeysStore.ServerApp.Context;
 using MetaMonkeysStore.ServerApp.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+
 //using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 //using Microsoft.AspNetCore.Identity;
@@ -17,8 +21,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthenticationCore();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddScoped<ProtectedSessionStorage>();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
+
 //builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 //builder.Services.AddSingleton<WeatherForecastService>();
 
@@ -31,6 +41,17 @@ builder.Services.AddScoped<ItemService>();
 
 // Connection to the database
 builder.Services.AddDbContext<ApplicationDbContext>(item => item.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Added as part of authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.Cookie.Name = "auth_token";
+    options.LoginPath = "/login";
+    options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
+    options.AccessDeniedPath = "/access-denied";
+});
+builder.Services.AddAuthorization();
+//builder.Services.AddCascadingAuthenticationState(); // To pass the authentication state throughout the application
 
 var app = builder.Build();
 

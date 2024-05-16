@@ -1,4 +1,4 @@
-﻿using MetaMonkeysBillingSystem.App.Models;
+﻿using MetaMonkeysStore.ServerApp.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace MetaMonkeysStore.ServerApp.Context

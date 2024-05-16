@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MetaMonkeysBillingSystem.App.Models
+namespace MetaMonkeysStore.ServerApp.Data
 {
     public class Employee
     {
