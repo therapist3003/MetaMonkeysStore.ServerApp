@@ -1,0 +1,30 @@
+﻿.h1 {
+    font-family: "Sofia", sans-serif;
+}
+
+.startupPgContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex_col {
+    display: flex;
+    flex-direction: column;
+}
+
+.mm_img {
+    width: 1050px;
+    height: 1050px;
+    border-radius: 60px;
+    padding: 40px;
+}
+
+.welcomeTxt {
+    font-size: 120px;
+    font-family: "Smooch Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    text-align: center
+}

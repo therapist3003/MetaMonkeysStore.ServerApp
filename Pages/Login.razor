@@ -1,12 +1,28 @@
-﻿@page "/login"
+﻿@page "/"
 @using MetaMonkeysStore.ServerApp.Data
 @inject EmployeeService employeeService
 @inject IJSRuntime js
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
 
+<EditForm Model="model">
+    <div class="form-group">
+        <label for="employeeType">Employee Type</label><br />
 
-<div class="row">
+        <InputRadioGroup id="employeeType" @bind-Value="model.role" class="form-control">
+            @foreach (var role in Roles)
+            {
+                <InputRadio Value="@role"></InputRadio>
+                <span style="padding">
+                    @role
+                </span>
+            }
+        </InputRadioGroup>
+    </div>
+
+</EditForm>    
+
+@*<div class="row">
     <div class="col-lg-4 offset-leg-4 pt-4 pb-4 border">
         <div class="mb-3 text-center">
             <h3>LOGIN</h3>
@@ -25,17 +41,47 @@
             <button @onclick="Authenticate" class="btn btn-primary">Login</button>
         </div>  
     </div> 
+</div>*@
+
+<div class="flex-col">
+    <h1>Login</h1>
+    <EditForm Model="@model">
+        <label>Username</label>
+        <InputText @bind-Value="@model.userName"/><br />
+        <label>Password</label>
+        <InputText type="password" @bind-Value="@model.password"/>
+    </EditForm>
+
+    <button @onclick="Authenticate" class="btn btn-primary">Login</button>
+
+    <p>New user ?</p>
+
+    <button @onclick="Register" class="btn btn-outline-primary">Register</button>
 </div>
 
-
 @code {
+    private EditContext editContext;
+
+    private List<String> Roles => new List<String>
+    {
+        "User",
+        "Admin"
+    };
+
     private class Model
     {
         public string userName;
         public string password;
+        public string role;
     }
 
     private Model model = new Model();
+
+    protected override Task OnInitializedAsync()
+    {
+        editContext = new EditContext(model);
+        return Task.CompletedTask;
+    }
 
     private async Task Authenticate()
     {
@@ -55,6 +101,11 @@
 
             });
         navManager.NavigateTo("/", true);
+    }
+
+    private async Task Register()
+    {
+        navManager.NavigateTo("/register", true);
     }
 }
  
