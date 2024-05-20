@@ -1,11 +1,114 @@
 ﻿@page "/register/"
+@using System.ComponentModel.DataAnnotations
+@using MetaMonkeysStore.ServerApp.Data
+@inject EmployeeService employeeService
+@inject IJSRuntime js
+@inject NavigationManager navManager
 
 <PageTitle>Registration</PageTitle>
 
 <h3>Register Yourself</h3>
 
+<div class="p-10">
+    <EditForm Model="model" class="w-2/3 mx-auto">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label for="employeeType">Employee Type</label><br />
+
+            <InputRadioGroup id="employeeType" @bind-Value="model.role" class="form-control">
+                @foreach (var role in Roles)
+                {
+                    <InputRadio Value="@role"></InputRadio>
+                    <span style="padding">
+                        @role
+                    </span>
+                }
+            </InputRadioGroup>
+            <ValidationMessage For="(() => model.role)" />
+        </div>
+
+        <div class="my-3">
+            <label>User Name</label>
+            <InputText class="border-2 rounded-sm py-3 px-4 w-full my-2"
+                       @bind-Value="model.userName" />
+            <ValidationMessage For="(() => model.userName)" />
+        </div>
+
+        @*<div class="my-3">
+            <label>@model.role - Registration Key</label>
+            <InputText class="border-2 rounded-sm py-3 px-4 w-full my-2"
+                       @bind-Value="model.userRegistrationKey"/>
+            <ValidationMessage For="(() => model.userRegistrationKey)" />
+        </div>*@
+
+        <div class="my-3">
+            <label>Password</label>
+            <InputText type="password" class="border-2 rounded-sm py-3 px-4 w-full my-2"
+                       @bind-Value="model.password" />
+            <ValidationMessage For="(() => model.password)" />
+        </div>
+
+        <button @onclick="RegisterUser" class="btn btn-outline-primary">Register</button>
+    </EditForm>
+</div>
 
 @code {
-    
+    private List<String> Roles => new List<String>
+    {
+        "User",
+        "Admin"
+    };
 
+    private class Model
+    {
+        [Required]
+        public string role;
+
+        [Required]
+        public string userName;
+
+        //[Required]
+        //public string userRegistrationKey;
+
+        [Required]
+        public string password;
+    }
+
+    private Model model = new Model();
+
+    /*private async void ValidateRegistrationKey(ChangeEventArgs args)
+        {
+        string inputKey = args.Value.ToString();
+
+        if ((model.role == "User" && inputKey != "mm_store_user") || (model.role == "Admin" && inputKey != "mm_store_admin"))
+            {
+            await js.InvokeVoidAsync("alert", "Invalid Registration Key. Enter again !!");
+        return;
+    }
+    }*/
+
+    private async Task RegisterUser()
+    {
+        Employee employee = new Employee()
+            {
+                Username = model.userName,
+                Role = model.role,
+                Password = model.password
+            };
+
+        bool insertFlag = await employeeService.AddNewEmployee(employee);
+
+        if (insertFlag)
+        {
+            await js.InvokeVoidAsync("alert", "Registration successful !!");
+        }
+
+        else
+        {
+            await js.InvokeVoidAsync("alert", "Failed registration !!");
+        }
+
+        navManager.NavigateTo("/");
+    }
 }

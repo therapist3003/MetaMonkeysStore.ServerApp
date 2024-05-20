@@ -19,7 +19,7 @@ namespace MetaMonkeysStore.ServerApp.Data
         {
             try
             {
-                await Task.Delay(5000);
+                //await Task.Delay(5000);
                 var employeeSessionStorageResult = await _sessionStorage.GetAsync<EmployeeSession>("EmployeeSession");
                 var employeeSession = employeeSessionStorageResult.Success ? employeeSessionStorageResult.Value : null;
 
