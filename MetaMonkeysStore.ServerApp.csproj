@@ -8,10 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\Home.razor.css" />
     <None Remove="Pages\Register.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Pages\Home.razor.css" />
     <Content Include="Pages\Register.razor.css" />
   </ItemGroup>
 
