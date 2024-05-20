@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MetaMonkeysStore.ServerApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240515064536_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240520035352_Removd_Name_Col_From_Employee_Table")]
+    partial class Removd_Name_Col_From_Employee_Table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace MetaMonkeysStore.ServerApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("MetaMonkeysBillingSystem.App.Models.Customer", b =>
+            modelBuilder.Entity("MetaMonkeysStore.ServerApp.Data.Customer", b =>
                 {
                     b.Property<int>("CustomerID")
                         .ValueGeneratedOnAdd()
@@ -60,16 +60,11 @@ namespace MetaMonkeysStore.ServerApp.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("MetaMonkeysBillingSystem.App.Models.Employee", b =>
+            modelBuilder.Entity("MetaMonkeysStore.ServerApp.Data.Employee", b =>
                 {
                     b.Property<string>("Username")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -86,7 +81,7 @@ namespace MetaMonkeysStore.ServerApp.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("MetaMonkeysBillingSystem.App.Models.Invoice", b =>
+            modelBuilder.Entity("MetaMonkeysStore.ServerApp.Data.Invoice", b =>
                 {
                     b.Property<int>("InvoiceID")
                         .ValueGeneratedOnAdd()
@@ -110,7 +105,7 @@ namespace MetaMonkeysStore.ServerApp.Migrations
                     b.ToTable("Invoices");
                 });
 
-            modelBuilder.Entity("MetaMonkeysBillingSystem.App.Models.InvoiceItem", b =>
+            modelBuilder.Entity("MetaMonkeysStore.ServerApp.Data.InvoiceItem", b =>
                 {
                     b.Property<int>("InvoiceItemID")
                         .ValueGeneratedOnAdd()
@@ -142,7 +137,7 @@ namespace MetaMonkeysStore.ServerApp.Migrations
                     b.ToTable("InvoiceItems");
                 });
 
-            modelBuilder.Entity("MetaMonkeysBillingSystem.App.Models.Item", b =>
+            modelBuilder.Entity("MetaMonkeysStore.ServerApp.Data.Item", b =>
                 {
                     b.Property<int>("ItemID")
                         .ValueGeneratedOnAdd()
@@ -169,9 +164,9 @@ namespace MetaMonkeysStore.ServerApp.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("MetaMonkeysBillingSystem.App.Models.Invoice", b =>
+            modelBuilder.Entity("MetaMonkeysStore.ServerApp.Data.Invoice", b =>
                 {
-                    b.HasOne("MetaMonkeysBillingSystem.App.Models.Customer", "Customer")
+                    b.HasOne("MetaMonkeysStore.ServerApp.Data.Customer", "Customer")
                         .WithMany("Invoices")
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -180,15 +175,15 @@ namespace MetaMonkeysStore.ServerApp.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("MetaMonkeysBillingSystem.App.Models.InvoiceItem", b =>
+            modelBuilder.Entity("MetaMonkeysStore.ServerApp.Data.InvoiceItem", b =>
                 {
-                    b.HasOne("MetaMonkeysBillingSystem.App.Models.Invoice", "Invoice")
+                    b.HasOne("MetaMonkeysStore.ServerApp.Data.Invoice", "Invoice")
                         .WithMany("InvoiceItems")
                         .HasForeignKey("InvoiceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MetaMonkeysBillingSystem.App.Models.Item", "Item")
+                    b.HasOne("MetaMonkeysStore.ServerApp.Data.Item", "Item")
                         .WithMany("InvoiceItems")
                         .HasForeignKey("ItemID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -199,17 +194,17 @@ namespace MetaMonkeysStore.ServerApp.Migrations
                     b.Navigation("Item");
                 });
 
-            modelBuilder.Entity("MetaMonkeysBillingSystem.App.Models.Customer", b =>
+            modelBuilder.Entity("MetaMonkeysStore.ServerApp.Data.Customer", b =>
                 {
                     b.Navigation("Invoices");
                 });
 
-            modelBuilder.Entity("MetaMonkeysBillingSystem.App.Models.Invoice", b =>
+            modelBuilder.Entity("MetaMonkeysStore.ServerApp.Data.Invoice", b =>
                 {
                     b.Navigation("InvoiceItems");
                 });
 
-            modelBuilder.Entity("MetaMonkeysBillingSystem.App.Models.Item", b =>
+            modelBuilder.Entity("MetaMonkeysStore.ServerApp.Data.Item", b =>
                 {
                     b.Navigation("InvoiceItems");
                 });

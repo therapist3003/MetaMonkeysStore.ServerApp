@@ -4,9 +4,15 @@
 @inject IJSRuntime js
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
+@using System.ComponentModel.DataAnnotations
 
-<EditForm Model="model">
-    <div class="form-group">
+<PageTitle>Login</PageTitle>
+
+<div class="p-10">
+    <EditForm Model="model" class="w-2/3 mx-auto">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        <div class="form-group">
         <label for="employeeType">Employee Type</label><br />
 
         <InputRadioGroup id="employeeType" @bind-Value="model.role" class="form-control">
@@ -18,50 +24,33 @@
                 </span>
             }
         </InputRadioGroup>
-    </div>
-
-</EditForm>    
-
-@*<div class="row">
-    <div class="col-lg-4 offset-leg-4 pt-4 pb-4 border">
-        <div class="mb-3 text-center">
-            <h3>LOGIN</h3>
+        <ValidationMessage For="(() => model.role)"/>
         </div>
 
-        <div class="mb-3">
-            <label>User Name</label>
-            <input @bind="model.userName" class="form-control" placeholder="User Name" />
+        <div class="my-3">
+            <label>Username</label>
+            <InputText class="border-2 rounded-sm py-3 px-4 w-full my-2"
+                @bind-Value="model.userName"/>
+                <ValidationMessage For="(() => model.userName)"/>
         </div>
-        <div class="mb-3">
+
+        <div class="my-3">
             <label>Password</label>
-            <input @bind="model.password" type="password" class="form-control" placeholder="Password" />
+            <InputText type="password" class="border-2 rounded-sm py-3 px-4 w-full my-2"
+                       @bind-Value="model.password" />
+            <ValidationMessage For="(() => model.password)" />
         </div>
-        <div class="mb-3 d-grid gap-2">
-            <label>User Name</label>
+
+        <div class="flex flex-row justify-end">
             <button @onclick="Authenticate" class="btn btn-primary">Login</button>
-        </div>  
-    </div> 
-</div>*@
-
-<div class="flex-col">
-    <h1>Login</h1>
-    <EditForm Model="@model">
-        <label>Username</label>
-        <InputText @bind-Value="@model.userName"/><br />
-        <label>Password</label>
-        <InputText type="password" @bind-Value="@model.password"/>
+        </div>
+        <br />
+        New user ?
+        <button @onclick="Register" class="btn btn-outline-primary">Register</button>
     </EditForm>
-
-    <button @onclick="Authenticate" class="btn btn-primary">Login</button>
-
-    <p>New user ?</p>
-
-    <button @onclick="Register" class="btn btn-outline-primary">Register</button>
 </div>
 
 @code {
-    private EditContext editContext;
-
     private List<String> Roles => new List<String>
     {
         "User",
@@ -70,18 +59,17 @@
 
     private class Model
     {
+        //[Required]
         public string userName;
+
+        //[Required]
         public string password;
+
+        //[Required]
         public string role;
     }
 
     private Model model = new Model();
-
-    protected override Task OnInitializedAsync()
-    {
-        editContext = new EditContext(model);
-        return Task.CompletedTask;
-    }
 
     private async Task Authenticate()
     {
@@ -100,7 +88,7 @@
                 Role = employeeAccount.Role
 
             });
-        navManager.NavigateTo("/", true);
+        navManager.NavigateTo("/home", true);
     }
 
     private async Task Register()
