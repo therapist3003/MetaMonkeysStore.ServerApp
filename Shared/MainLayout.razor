@@ -12,7 +12,6 @@
     
     <main>
         <div class="top-row px-4 auth">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
             <AuthorizeView>
                 <Authorized>
                     <a @onclick="Logout" href="javascript:void(0)">Logout</a>
@@ -34,7 +33,7 @@
     {
         var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
         await customAuthStateProvider.UpdateAuthenticationState(null);
-
+    
         navManager.NavigateTo("/", true);
     }
 }
