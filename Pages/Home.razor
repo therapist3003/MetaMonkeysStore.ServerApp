@@ -37,6 +37,8 @@ else
     </RadzenGrid>
 }
 
+<button onclick="CheckRadzen">Check Radzen</button>
+
 @code {
     public string searchInvoiceNumber = null!;
     public string searchCustomerMobile = null!;
@@ -90,9 +92,16 @@ else
         return;
     }
 
-    private void HiAsync(ChangeEventArgs e)
+    public async void CheckRadzen() // To check whether adding a new item to table data display list, re-renders the table
     {
-        //searchInvoiceNumber = "aaaa";
-        searchCustomerMobile = String.Concat(searchCustomerMobile, "95"); 
+        Customer cust = await customerService.GetCustomerByPhone("9500898152");
+        List<Invoice> invoices = await invoiceService.GetInvoiceByCustomerID("31");
+
+        foreach (Invoice invoice in invoices)
+        {
+            TableEntry match = new TableEntry { customer = cust, invoice = invoice };
+            foundMatches.Add(match);
+        }
+        return;
     }
 }
