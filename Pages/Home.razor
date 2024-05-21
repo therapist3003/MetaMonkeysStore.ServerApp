@@ -22,9 +22,19 @@
     <h1>@noMatchDisplay</h1>
 }
 else
-{
-    <h1>Match Found !!</h1>
-    // Replace this statement by displaying the table
+{    
+    // Displaying Radzen Grid
+    <RadzenGrid AllowPaging="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" PageSize="4" AllowSorting="true" 
+        Data="@foundMatches" TItem="TableEntry" ColumnWidth="100px">
+        <Columns>
+            @*Include column for serial number*@
+            <RadzenGridColumn TItem="TableEntry" Property="invoice.InvoiceID" Title="Invoice ID"></RadzenGridColumn>
+            <RadzenGridColumn TItem="TableEntry" Property="invoice.CustomerID" Title="Customer ID"></RadzenGridColumn>
+            <RadzenGridColumn TItem="TableEntry" Property="customer.Name" Title="Customer Name"></RadzenGridColumn>
+            <RadzenGridColumn TItem="TableEntry" Property="invoice.TotalAmount" Title="Bill value"></RadzenGridColumn>
+            
+        </Columns>
+    </RadzenGrid>
 }
 
 @code {
@@ -33,7 +43,13 @@ else
 
     public string noMatchDisplay = "No Matches Found !!";
 
-    public List<Tuple<Customer, Invoice>> foundMatches = new List<Tuple<Customer, Invoice>>();
+    public List<TableEntry> foundMatches = new List<TableEntry>();
+
+    public class TableEntry // Grouped two objects into one for ease while creating radzen grid
+    {
+        public Customer customer { get; set; }
+        public Invoice invoice { get; set; }
+    }
 
     private async Task SearchByInvoiceNo(ChangeEventArgs e) // Searching by invoice no. returns 1 match
     {
@@ -47,13 +63,30 @@ else
 
         Customer invoicedCustomer = await customerService.GetCustomerById(searchInvoice.CustomerID);
 
-        Tuple<Customer, Invoice> foundMatch = new Tuple<Customer, Invoice>(invoicedCustomer, searchInvoice);
+        TableEntry foundMatch = new TableEntry{customer = invoicedCustomer, invoice = searchInvoice };
         foundMatches.Add(foundMatch);
         return;
     }
 
-    private void SearchByCustomerMobile(ChangeEventArgs e) // Searching by customer mobile returns more than 1 match
+    private async Task SearchByCustomerMobile(ChangeEventArgs e) // Searching by customer mobile returns more than 1 match
     {
+        foundMatches.Clear();
+        Customer searchCustomer = await customerService.GetCustomerByPhone(searchCustomerMobile);
+
+        if (searchCustomer == null)
+        {
+            return;
+        }
+
+        string customerID = searchCustomer.CustomerID;
+
+        List<Invoice> foundMatch = await invoiceService.GetInvoiceByCustomerID(customerID);
+
+        foreach (Invoice invoice in foundMatch)
+        {
+            TableEntry match = new TableEntry { customer = searchCustomer, invoice = invoice };
+            foundMatches.Add(match);
+        }
         return;
     }
 

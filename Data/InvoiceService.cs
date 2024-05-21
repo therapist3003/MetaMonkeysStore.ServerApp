@@ -30,6 +30,11 @@ namespace MetaMonkeysStore.ServerApp.Data
             return invoice;
         }
 
-        // Get Invoice by customer phone
+        // Get Invoice by Customer ID
+        public async Task<List<Invoice>> GetInvoiceByCustomerID(string customerID)
+        {
+            List<Invoice> matchedInvoices = await _applicationDbContext.Invoices.Where(i => i.CustomerID == customerID).ToListAsync();
+            return matchedInvoices;
+        }
     }
 }
