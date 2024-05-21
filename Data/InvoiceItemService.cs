@@ -24,7 +24,7 @@ namespace MetaMonkeysStore.ServerApp.Data
         // Get all items in an invoice by invoice Id
         public async Task<List<InvoiceItem>> GetInvoiceItemsById(string id)
         {
-            List<InvoiceItem> invoiceItems = await _applicationDbContext.InvoiceItems.Where(item => item.InvoiceItemID == id).ToListAsync();
+            List<InvoiceItem> invoiceItems = await _applicationDbContext.InvoiceItems.Where(item => item.InvoiceID == id).ToListAsync();
             return invoiceItems;
         }
     }

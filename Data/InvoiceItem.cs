@@ -18,13 +18,13 @@ namespace MetaMonkeysStore.ServerApp.Data
         [Required]
         public int Quantity { get; set; }
 
-        [Required]
+        /*[Required]
         [Column(TypeName = "decimal(10, 2)")]
         public decimal UnitCost { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(10,2)")]
-        public decimal TotalCost { get; set; }
+        public decimal TotalCost { get; set; }*/
 
         [ForeignKey("InvoiceID")]
         public Invoice Invoice { get; set; } // An invoice item belongs to a single invoice
