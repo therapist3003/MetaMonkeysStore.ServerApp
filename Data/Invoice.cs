@@ -7,10 +7,10 @@ namespace MetaMonkeysStore.ServerApp.Data
     {
         public static int Count = 0;
         [Key]
-        public int InvoiceID { get; set; }
+        public string InvoiceID { get; set; }
 
         [Required]
-        public int CustomerID { get; set; }
+        public string CustomerID { get; set; }
 
         [Required]
         public DateTime InvoiceDate { get; set; }
@@ -22,6 +22,6 @@ namespace MetaMonkeysStore.ServerApp.Data
         [ForeignKey("CustomerID")]
         public Customer Customer { get; set; } // Check whether making this nullable resolves any future error
 
-        public ICollection<InvoiceItem> InvoiceItems { get; set; }
+        //public ICollection<InvoiceItem> InvoiceItems { get; set; }
     }
 }

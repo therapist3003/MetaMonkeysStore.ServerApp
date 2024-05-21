@@ -15,7 +15,7 @@ namespace MetaMonkeysStore.ServerApp.Data
         // Add customer
         public async Task<bool> AddCustomer(Customer customer)
         {
-            customer.CustomerID = ++Customer.Count;
+            customer.CustomerID = Convert.ToString(++Customer.Count);
             await _applicationDbContext.Customers.AddAsync(customer);
             await _applicationDbContext.SaveChangesAsync();
             return true;

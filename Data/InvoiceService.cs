@@ -17,14 +17,14 @@ namespace MetaMonkeysStore.ServerApp.Data
         // Add new invoice
         public async Task<bool> AddInvoice(Invoice invoice)
         {
-            invoice.InvoiceID = ++Invoice.Count;
+            invoice.InvoiceID = Convert.ToString(++Invoice.Count);
             await _applicationDbContext.Invoices.AddAsync(invoice);
             await _applicationDbContext.SaveChangesAsync();
             return true;
         }
 
         // Get Invoice by InvoiceID
-        public async Task<Invoice> GetInvoiceById(int id)
+        public async Task<Invoice> GetInvoiceById(string id)
         {
             Invoice invoice = await _applicationDbContext.Invoices.FirstOrDefaultAsync(x => x.InvoiceID == id);
             return invoice;

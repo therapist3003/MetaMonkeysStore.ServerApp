@@ -6,7 +6,7 @@ namespace MetaMonkeysStore.ServerApp.Data
     public class Item
     {
         [Key]
-        public int ItemID { get; set; }
+        public string ItemID { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -23,6 +23,6 @@ namespace MetaMonkeysStore.ServerApp.Data
         [Column(TypeName = "decimal(10,2)")]
         public decimal Discount { get; set; }
 
-        public ICollection<InvoiceItem> InvoiceItems { get; set; } // One inventory item is related to an invoice item entry
+        //public ICollection<InvoiceItem> InvoiceItems { get; set; } // One inventory item is related to an invoice item entry
     }
 }

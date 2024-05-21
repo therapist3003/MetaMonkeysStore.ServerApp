@@ -1,24 +1,41 @@
 ﻿@page "/home"
+@using MetaMonkeysStore.ServerApp.Data
+@inject InvoiceService invoiceService
 
 <h3>Home</h3>
 
 <div class="search-bars">
     <div class="text-center bg-blue-100">
         <input class="border-4 w-1/3 rounded m-6 p-6 h-8
-               border-blue-300" @bind-value="searchInvoiceNumber"
-               @bind-value:event="oninput" placeholder="Search by Invoice No." />
+               border-blue-300" type="text" @bind-value="@searchInvoiceNumber"
+               @oninput="SearchByInvoiceNo" placeholder="Search By Invoice No." />
     </div>
 
     <div class="text-center bg-blue-100">
         <input class="border-4 w-1/3 rounded m-6 p-6 h-8
-               border-blue-300" @bind-value="searchCustomerMobile"
-               @bind-value:event="oninput" placeholder="Search by Customer Mobile" />
+               border-blue-300" type="text" @bind-value="@searchCustomerMobile"
+               @oninput="SearchByCustomerMobile" placeholder="Search by Customer Mobile" />
     </div>
 </div>
 
-
 @code {
-    public string searchInvoiceNumber;
-    public string searchCustomerMobile;
+    public string searchInvoiceNumber = null!;
+    public string searchCustomerMobile = null!;
 
+    private async void SearchByInvoiceNo(ChangeEventArgs e)
+    {
+        Invoice searchInvoice = await invoiceService.GetInvoiceById(searchInvoiceNumber);
+        return;
+    }
+
+    private void SearchByCustomerMobile(ChangeEventArgs e)
+    {
+        return;
+    }
+
+    private void HiAsync(ChangeEventArgs e)
+    {
+        //searchInvoiceNumber = "aaaa";
+        searchCustomerMobile = String.Concat(searchCustomerMobile, "95"); 
+    }
 }

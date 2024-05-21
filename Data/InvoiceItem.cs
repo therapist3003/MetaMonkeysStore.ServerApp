@@ -7,13 +7,13 @@ namespace MetaMonkeysStore.ServerApp.Data
     {
         public static int Count = 0;
         [Key]
-        public int InvoiceItemID { get; set; }
+        public string InvoiceItemID { get; set; }
 
         [Required]
-        public int InvoiceID { get; set; }
+        public string InvoiceID { get; set; }
 
         [Required]
-        public int ItemID { get; set; }
+        public string ItemID { get; set; }
 
         [Required]
         public int Quantity { get; set; }

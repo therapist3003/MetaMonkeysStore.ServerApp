@@ -6,7 +6,7 @@ namespace MetaMonkeysStore.ServerApp.Data
     {
         public static int Count = 0;
         [Key]
-        public int CustomerID { get; set; }
+        public string CustomerID { get; set; } = null!;
 
         [Required]
         [StringLength(30)]
@@ -26,6 +26,6 @@ namespace MetaMonkeysStore.ServerApp.Data
         [StringLength(15)]
         public string City { get; set; } = null!;
 
-        public ICollection<Invoice> Invoices { get; set; } // One customer has a collection of orders, hence a collection of invoices
+        //public ICollection<Invoice> Invoices { get; set; } // One customer has a collection of orders, hence a collection of invoices
     }
 }
