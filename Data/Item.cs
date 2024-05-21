@@ -23,6 +23,9 @@ namespace MetaMonkeysStore.ServerApp.Data
         [Column(TypeName = "decimal(10,2)")]
         public decimal Discount { get; set; }
 
+        [Required]
+        public int procuredQuantity { get; set; }
+
         //public ICollection<InvoiceItem> InvoiceItems { get; set; } // One inventory item is related to an invoice item entry
     }
 }
