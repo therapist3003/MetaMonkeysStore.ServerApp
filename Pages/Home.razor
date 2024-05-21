@@ -1,34 +1,58 @@
 ﻿@page "/home"
 @using MetaMonkeysStore.ServerApp.Data
 @inject InvoiceService invoiceService
-
-<h3>Home</h3>
+@inject CustomerService customerService
 
 <div class="search-bars">
     <div class="text-center bg-blue-100">
         <input class="border-4 w-1/3 rounded m-6 p-6 h-8
-               border-blue-300" type="text" @bind-value="@searchInvoiceNumber"
-               @oninput="SearchByInvoiceNo" placeholder="Search By Invoice No." />
+               border-blue-300" type="text" placeholder="Search By Invoice No." @bind="searchInvoiceNumber"
+               @bind:event="oninput" @onchange="SearchByInvoiceNo"/>
     </div>
 
     <div class="text-center bg-blue-100">
         <input class="border-4 w-1/3 rounded m-6 p-6 h-8
-               border-blue-300" type="text" @bind-value="@searchCustomerMobile"
-               @oninput="SearchByCustomerMobile" placeholder="Search by Customer Mobile" />
+               border-blue-300" type="text" placeholder="Search By Customer Mobile" @bind="searchCustomerMobile"
+               @bind:event="oninput" @onchange="SearchByCustomerMobile" />
     </div>
 </div>
+
+@if (!foundMatches.Any())
+{
+    <h1>@noMatchDisplay</h1>
+}
+else
+{
+    <h1>Match Found !!</h1>
+    // Replace this statement by displaying the table
+}
 
 @code {
     public string searchInvoiceNumber = null!;
     public string searchCustomerMobile = null!;
 
-    private async void SearchByInvoiceNo(ChangeEventArgs e)
+    public string noMatchDisplay = "No Matches Found !!";
+
+    public List<Tuple<Customer, Invoice>> foundMatches = new List<Tuple<Customer, Invoice>>();
+
+    private async Task SearchByInvoiceNo(ChangeEventArgs e) // Searching by invoice no. returns 1 match
     {
+        foundMatches.Clear();
         Invoice searchInvoice = await invoiceService.GetInvoiceById(searchInvoiceNumber);
+
+        if (searchInvoice == null)
+        {
+            return;
+        }
+
+        Customer invoicedCustomer = await customerService.GetCustomerById(searchInvoice.CustomerID);
+
+        Tuple<Customer, Invoice> foundMatch = new Tuple<Customer, Invoice>(invoicedCustomer, searchInvoice);
+        foundMatches.Add(foundMatch);
         return;
     }
 
-    private void SearchByCustomerMobile(ChangeEventArgs e)
+    private void SearchByCustomerMobile(ChangeEventArgs e) // Searching by customer mobile returns more than 1 match
     {
         return;
     }

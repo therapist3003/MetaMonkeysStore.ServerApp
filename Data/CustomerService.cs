@@ -21,6 +21,14 @@ namespace MetaMonkeysStore.ServerApp.Data
             return true;
         }
 
+        // Get customer by customer ID
+        public async Task<Customer> GetCustomerById(string customerID)
+        {
+            Customer queriedCustomer = await _applicationDbContext.Customers.FirstOrDefaultAsync(x => x.CustomerID == customerID);
+            return queriedCustomer;
+        }
+
+
         // Get customer by phone no.
         public async Task<Customer> GetCustomerByPhone(string phoneNo)
         {
